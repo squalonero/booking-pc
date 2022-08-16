@@ -5,7 +5,10 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
-      fontFamily: { sans: ['Inter var', ...defaultTheme.fontFamily.sans] }
+      fontFamily: {
+        body: ['Inter var'],
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans]
+      }
     }
   },
   plugins: []
