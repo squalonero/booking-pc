@@ -1,5 +1,6 @@
-import { LocalizationProvider, StaticDatePicker } from '@mui/x-date-pickers'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import it from 'dayjs/locale/it'
 
 import BookingCalendar from 'pages/Booking/BookingCalendar'
 import { Route, Routes } from 'react-router-dom'
