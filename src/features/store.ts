@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { bookingReducer } from './booking/reducer'
 
+// Create the store builded with all slices
+// this rootReducer contains all the 'mini' reducers
 const rootReducer = {
-  // map reducers
+  booking: bookingReducer
 }
 
 export const store = configureStore({
