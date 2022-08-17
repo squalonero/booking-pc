@@ -120,24 +120,30 @@ const Calendar = () => {
       week.dates.forEach((d, i) => {
         days.push(
           <div
-            className={` ${
-              !d.isCurrentMonth ? 'disabled' : d.isCurrentDay ? 'selected' : ''
+            className={`day mx-auto ${
+              !d.isCurrentMonth
+                ? 'text-gray-300'
+                : d.isCurrentDay
+                ? 'relative text-white'
+                : ''
             }`}
             key={i}
           >
-            <span className="">{d.day}</span>
-            <span className="">{d.day}</span>
+            {d.isCurrentDay && (
+              <span className="bg-blue-500 rounded-full absolute w-5 h-5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-0" />
+            )}
+            <span className="relative z-1">{d.day}</span>
           </div>
         )
       })
       rows.push(
-        <div className="" key={index}>
+        <div className="grid grid-cols-7 gap-3" key={index}>
           {days}
         </div>
       )
       days = []
     })
-    return <div className="grid grid-cols-7">{rows}</div>
+    return <div className="grid">{rows}</div>
   }
 
   return (
