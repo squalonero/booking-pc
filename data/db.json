@@ -6,6 +6,7 @@
         "email": "test@test.it",
         "phone": "3421234567"
       },
+      "status": "pending",
       "date": "2022-09-01",
       "numPeople": 2,
       "people": [

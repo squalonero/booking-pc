@@ -1,13 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+export interface BookingAvailabilityI {
+  total: number | null
+  confirmed: number | null
+  pending: number | null
+}
+
 type BookingState = {
   selectedDate: string | null
   selectedPeople: number
+  bookedSeats: BookingAvailabilityI
 }
 
 const initialState: BookingState = {
   selectedDate: null,
-  selectedPeople: 1
+  selectedPeople: 1,
+  bookedSeats: {
+    total: null,
+    confirmed: null,
+    pending: null
+  }
 }
 
 const BookigSlice = createSlice({
@@ -25,6 +37,10 @@ const BookigSlice = createSlice({
     },
     decreaseNumPeople: (state) => {
       if (state.selectedPeople > 1) state.selectedPeople--
+    },
+    getBookingAvailability: (state, { payload }: PayloadAction<string | null>) => {},
+    setBookingAvailability: (state, { payload }: PayloadAction<BookingAvailabilityI>) => {
+      state.bookedSeats = { ...payload }
     }
   }
 })
