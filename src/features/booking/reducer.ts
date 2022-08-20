@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 type BookingState = {
   selectedDate: string | null
+  selectedPeople: number
 }
 
 const initialState: BookingState = {
-  selectedDate: null
+  selectedDate: null,
+  selectedPeople: 1
 }
 
 const BookigSlice = createSlice({
@@ -17,6 +19,12 @@ const BookigSlice = createSlice({
     },
     resetSelectedDate: (state) => {
       state.selectedDate = null
+    },
+    increaseNumPeople: (state) => {
+      state.selectedPeople++
+    },
+    decreaseNumPeople: (state) => {
+      if (state.selectedPeople > 1) state.selectedPeople--
     }
   }
 })

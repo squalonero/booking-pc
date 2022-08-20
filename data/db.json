@@ -1,0 +1,25 @@
+{
+  "bookings": [
+    {
+      "id": 1,
+      "user": {
+        "email": "test@test.it",
+        "phone": "3421234567"
+      },
+      "date": "2022-09-01",
+      "numPeople": 2,
+      "people": [
+        {
+          "name": "Pippo",
+          "lastName": "Baudo",
+          "age": 45
+        },
+        {
+          "name": "Pluto",
+          "lastName": "Baudo",
+          "age": 43
+        }
+      ]
+    }
+  ]
+}

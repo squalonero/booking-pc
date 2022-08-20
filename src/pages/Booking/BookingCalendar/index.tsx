@@ -5,6 +5,7 @@ import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { PeopleController } from './PeopleController'
 
 const BookingCalendar = () => {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const BookingCalendar = () => {
         shouldDisableDate={(date) => date < tomorrow}
         renderInput={(params) => <TextField {...params} />}
       />
+      <PeopleController />
     </div>
   )
 }
