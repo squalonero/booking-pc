@@ -8,8 +8,8 @@ import { Route, Routes } from 'react-router-dom'
 export const App = () => {
   return (
     <LocalizationProvider adapterLocale={it} dateAdapter={AdapterDayjs}>
-      <div className="w-[calc(100%_-_6rem)] h-screen mx-[3rem]">
-        <div className="flex flex-col py-5 items-center h-full w-full mx-auto">
+      <div className="w-[calc(100%_-_6rem)] min-h-screen mx-[3rem]">
+        <div className="flex flex-col py-10 items-center h-full w-full mx-auto">
           <Routes>
             <Route path="/" element={<BookingCalendar />} />
           </Routes>
