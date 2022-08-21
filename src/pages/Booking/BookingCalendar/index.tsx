@@ -1,4 +1,3 @@
-import { config } from 'process'
 import { Button } from '@mui/material'
 import dayjs from 'dayjs'
 import { selectSelectedDate } from 'features/booking/selectors'
