@@ -1,5 +1,6 @@
 import { Button } from '@mui/material'
 import dayjs from 'dayjs'
+import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
 import { bookingAvailabilityActions } from 'features/models/bookings/reducer'
 import { selectDbBooked } from 'features/models/bookings/selectors'
@@ -23,6 +24,10 @@ const BookingCalendar = () => {
     )
   }, [dispatch, selectedDate])
 
+  const resetDate = () => {
+    dispatch(bookingActions.setSelectedDate(''))
+  }
+
   return (
     <>
       <div className="text-center mb-10">
@@ -44,12 +49,21 @@ const BookingCalendar = () => {
                 {Config.max_people - selectBooked.confirmed}/{Config.max_people}
               </div>
             </div>
+            <div className="mt-5 w-full">
+              <PeopleController max={Config.max_people} />
+            </div>
+            <div className="flex">
+              <Button
+                variant="outlined"
+                color="primary"
+                className="mt-5 ml-auto"
+                onClick={resetDate}
+              >
+                Cambia data
+              </Button>
+            </div>
           </>
         )}
-      </div>
-
-      <div className="mt-5 w-full">
-        {selectedDate && <PeopleController max={Config.max_people} />}
       </div>
 
       <div className="flex justify-center mt-auto">
