@@ -21,8 +21,3 @@ export const selectSelectedPeople = createSelector(
   selectBooking,
   ({ selectedPeople }) => selectedPeople
 )
-
-export const selectBookedSeats = createSelector(
-  selectBooking,
-  ({ bookedSeats }) => bookedSeats
-)

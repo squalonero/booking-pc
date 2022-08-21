@@ -3,6 +3,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
+import { bookingAvailabilityActions } from 'features/models/bookings/reducer'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -20,13 +21,14 @@ export const DateController = () => {
   )
 
   useEffect(() => {
-    console.log(selectedDate)
     if (selectedDate) {
       dispatch(
-        bookingActions.getBookingAvailability(dayjs(selectedDate).format('YYYY-MM-DD'))
+        bookingAvailabilityActions.getBookingAvailability(
+          dayjs(selectedDate).format('YYYY-MM-DD')
+        )
       )
     }
-  }, [dispatch])
+  }, [dispatch, selectedDate])
 
   return (
     <StaticDatePicker<Date>
