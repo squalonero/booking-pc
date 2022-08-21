@@ -3,12 +3,16 @@ import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedPeople } from 'features/booking/selectors'
 import { useDispatch, useSelector } from 'react-redux'
 
-export const PeopleController = () => {
+type Props = {
+  max: number
+}
+
+export const PeopleController = ({ max }: Props) => {
   const dispatch = useDispatch()
   const selectedPeople = useSelector(selectSelectedPeople)
 
   const incrementPeople = () => {
-    dispatch(bookingActions.increaseNumPeople())
+    selectedPeople < max && dispatch(bookingActions.increaseNumPeople())
   }
   const decrementPeople = () => {
     dispatch(bookingActions.decreaseNumPeople())

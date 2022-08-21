@@ -3,7 +3,7 @@ import { RootState } from 'features/store'
 
 const selectDbBookings = ({ availableBookings }: RootState) => availableBookings
 
-export const selectBookedSeats = createSelector(
+export const selectDbBooked = createSelector(
   selectDbBookings,
   ({ total, confirmed, pending }) => ({
     total,
