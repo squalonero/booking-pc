@@ -31,7 +31,7 @@ const BookingCalendar = () => {
   return (
     <>
       <div className="text-center mb-10">
-        <h1 className="text-lg font-bold text-blue-500">Pescaturismo Celeste</h1>
+        <h1 className="text-lg font-bold text-blue-500">App Name</h1>
         <h2 className="text-sm font-bold text-blue-900">Prenotazioni</h2>
       </div>
 
@@ -44,32 +44,38 @@ const BookingCalendar = () => {
               <span>{dayjs(selectedDate).format('DD-MM-YYYY')}</span>
             </h4>
             <div className="flex justify-between">
-              <div className="text-gray-500">Posti liberi:</div>
+              <div className="text-gray-500">Posti occupati:</div>
               <div>
-                {Config.max_people - selectBooked.confirmed}/{Config.max_people}
+                {selectBooked.confirmed}/{Config.max_people}
               </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="text-gray-500">Persone in coda:</div>
+              <div>
+                {selectBooked.pending}/{Config.max_people}
+              </div>
+            </div>
+            <div className="flex justify-between text-xl">
+              <div className="text-gray-500">Posti disponibili:</div>
+              <div>{Config.max_people - selectBooked.total}</div>
             </div>
             <div className="mt-5 w-full">
               <PeopleController max={Config.max_people} />
             </div>
-            <div className="flex">
-              <Button
-                variant="outlined"
-                color="primary"
-                className="mt-5 ml-auto"
-                onClick={resetDate}
-              >
-                Cambia data
-              </Button>
+            <div className="flex justify-between mt-5">
+              <div>
+                <Button variant="outlined" color="primary" onClick={resetDate}>
+                  Cambia data
+                </Button>
+              </div>
+              <div>
+                <Button variant="contained" color="primary">
+                  Prenota
+                </Button>
+              </div>
             </div>
           </>
         )}
-      </div>
-
-      <div className="flex justify-center mt-auto">
-        <Button variant="contained" color="primary">
-          Prenota
-        </Button>
       </div>
     </>
   )

@@ -19,12 +19,14 @@ export const PeopleController = ({ max }: Props) => {
   }
 
   return (
-    <NumberInput
-      id="selectedPeople"
-      label="Numero Persone"
-      value={selectedPeople}
-      onDecrement={decrementPeople}
-      onIncrement={incrementPeople}
-    />
+    <>
+      <NumberInput
+        id="selectedPeople"
+        label="Numero Persone"
+        value={selectedPeople}
+        onDecrement={decrementPeople}
+        onIncrement={incrementPeople}
+      />
+    </>
   )
 }

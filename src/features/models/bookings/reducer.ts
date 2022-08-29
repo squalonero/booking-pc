@@ -19,6 +19,7 @@ const BookingAvailabilitySlice = createSlice({
     getBookingAvailability: (state, { payload }: PayloadAction<string | null>) => {},
     setBookingAvailability: (state, { payload }: PayloadAction<BookingAvailabilityI>) => {
       state = { ...payload }
+      return state
     }
   }
 })

@@ -44,10 +44,11 @@ export function* handleGetBookingAvailability(action: PayloadAction<string>) {
     const response = yield call(requestGetBookingAvailability, payload)
     const { data } = response
     if (!data.length) return
-
-    const result = data.reduce(
+    // edit the data
+    const result: BookingAvailabilityI = data.reduce(
       (acc: BookingAvailabilityI, item: BookingDB) => {
         return {
+          ...acc,
           total: acc.total + item.numPeople,
           confirmed:
             item.status === 'confirmed' ? acc.confirmed + item.numPeople : acc.confirmed,
@@ -56,6 +57,7 @@ export function* handleGetBookingAvailability(action: PayloadAction<string>) {
       },
       { total: 0, confirmed: 0, pending: 0 }
     )
+    // call the reducer and set the state
     yield put(bookingAvailabilityActions.setBookingAvailability(result))
   } catch (error) {
     console.log(error)
