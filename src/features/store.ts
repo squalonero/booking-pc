@@ -1,7 +1,7 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { configureStore } from '@reduxjs/toolkit'
+import { bookingAvailabilityReducer } from './availability/reducer'
 import { bookingReducer } from './booking/reducer'
-import { bookingAvailabilityReducer } from './models/bookings/reducer'
 import { watcherSaga } from './sagas/rootSaga'
 
 // Create the store builded with all slices

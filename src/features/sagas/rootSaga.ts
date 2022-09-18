@@ -1,10 +1,16 @@
-import { bookingAvailabilityActions } from 'features/models/bookings/reducer'
+import { bookingAvailabilityActions } from 'features/availability/reducer'
+
 import { takeLatest } from 'redux-saga/effects'
-import { handleGetBookingAvailability } from './handlers/booking'
+import {
+  handleGetBookingAvailByDay,
+  handleGetBookingAvailByMonth
+} from './handlers/BookingAvailability'
 
 export function* watcherSaga() {
+  yield takeLatest(bookingAvailabilityActions.getByDay.type, handleGetBookingAvailByDay)
+
   yield takeLatest(
-    bookingAvailabilityActions.getBookingAvailability.type,
-    handleGetBookingAvailability
+    bookingAvailabilityActions.getByMonth.type,
+    handleGetBookingAvailByMonth
   )
 }

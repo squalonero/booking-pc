@@ -1,15 +1,27 @@
 import { TextField } from '@mui/material'
-import { StaticDatePicker } from '@mui/x-date-pickers'
+import { PickersDay, PickersDayProps, StaticDatePicker } from '@mui/x-date-pickers'
+import { PickerSelectionState } from '@mui/x-date-pickers/internals'
 import dayjs from 'dayjs'
+import { bookingAvailabilityActions } from 'features/availability/reducer'
+import { selectAvailByMonth } from 'features/availability/selectors'
 import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const DateController = () => {
   const dispatch = useDispatch()
+  const monthBookings = useSelector(selectAvailByMonth)
   const selectedDate = useSelector(selectSelectedDate)
   const tomorrow = dayjs().add(0, 'day').toDate()
+
+  const [daysWithDot, setDaysWithDot] = useState([])
+
+  useEffect(() => {
+    const currentDate = dayjs().format('YYYY-MM-DD').toString()
+    dispatch(bookingAvailabilityActions.getByMonth(currentDate))
+    console.log(monthBookings)
+  }, [dispatch])
 
   const handleChange = useCallback(
     (value: Date | null) => {
@@ -18,6 +30,28 @@ export const DateController = () => {
     },
     [dispatch]
   )
+
+  /**
+   * @TODO: color dates based on availability
+   */
+
+  // const renderDay = (
+  //   date: Date,
+  //   selectedDate: Date,
+  //   dayInCurrentMonth: Array<Date | null>,
+  //   dayComponent: JSX.Element
+  // ) => {
+  //   if (daysWithDot.includes(date.format('YYYY-MM-DD'))) {
+  //     return (
+  //       <div className="">
+  //         {dayComponent}
+  //         <div className={classes.dayWithDot} />
+  //       </div>
+  //     )
+  //   }
+
+  //   return dayComponent
+  // }
 
   return (
     <StaticDatePicker<Date>
@@ -28,6 +62,23 @@ export const DateController = () => {
       onChange={handleChange}
       shouldDisableDate={(date) => date < tomorrow}
       renderInput={(params) => <TextField {...params} />}
+      // renderDay={(
+      //   day: Date,
+      //   selectedDays: Array<Date | null>,
+      //   pickersDayProps: PickersDayProps<Date>
+      // ) => (
+      //   <>
+      //     <span key={day.toString()}>
+      //       <PickersDay
+      //         day={day}
+      //         onDaySelect={function (day: Date, isFinish: PickerSelectionState): void {
+      //           throw new Error('Function not implemented.')
+      //         }}
+      //         outsideCurrentMonth={false}
+      //       />
+      //     </span>
+      //   </>
+      // )}
     />
   )
 }

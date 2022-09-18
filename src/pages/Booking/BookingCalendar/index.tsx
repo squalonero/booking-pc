@@ -1,26 +1,25 @@
 import { Button } from '@mui/material'
 import dayjs from 'dayjs'
+import { bookingAvailabilityActions } from 'features/availability/reducer'
+import { selectAvailByDay } from 'features/availability/selectors'
 import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
-import { bookingAvailabilityActions } from 'features/models/bookings/reducer'
-import { selectDbBooked } from 'features/models/bookings/selectors'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Config from './config.json'
 import { DateController } from './DateController'
 import { PeopleController } from './PeopleController'
+import './calendar.css'
 
 const BookingCalendar = () => {
   const dispatch = useDispatch()
   const selectedDate = useSelector(selectSelectedDate)
-  const selectBooked = useSelector(selectDbBooked)
+  const availByDay = useSelector(selectAvailByDay)
 
   useEffect(() => {
     if (!selectedDate) return
     dispatch(
-      bookingAvailabilityActions.getBookingAvailability(
-        dayjs(selectedDate).format('YYYY-MM-DD')
-      )
+      bookingAvailabilityActions.getByDay(dayjs(selectedDate).format('YYYY-MM-DD'))
     )
   }, [dispatch, selectedDate])
 
@@ -37,7 +36,7 @@ const BookingCalendar = () => {
 
       <div className="mt-5 w-full">
         {!selectedDate && <DateController />}
-        {selectedDate && selectBooked && (
+        {selectedDate && availByDay && (
           <>
             <h4 className="flex justify-between">
               <span className="text-gray-500">Data selezionata:</span>
@@ -46,18 +45,18 @@ const BookingCalendar = () => {
             <div className="flex justify-between">
               <div className="text-gray-500">Posti occupati:</div>
               <div>
-                {selectBooked.confirmed}/{Config.max_people}
+                {availByDay.confirmed}/{Config.max_people}
               </div>
             </div>
             <div className="flex justify-between">
               <div className="text-gray-500">Persone in coda:</div>
               <div>
-                {selectBooked.pending}/{Config.max_people}
+                {availByDay.pending}/{Config.max_people}
               </div>
             </div>
             <div className="flex justify-between text-xl">
               <div className="text-gray-500">Posti disponibili:</div>
-              <div>{Config.max_people - selectBooked.total}</div>
+              <div>{Config.max_people - availByDay.total}</div>
             </div>
             <div className="mt-5 w-full">
               <PeopleController max={Config.max_people} />
