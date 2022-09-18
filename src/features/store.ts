@@ -1,14 +1,19 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { configureStore } from '@reduxjs/toolkit'
+import { all } from 'redux-saga/effects'
 import { bookingAvailabilityReducer } from './availability/reducer'
+import { availabilitySaga } from './availability/sagas'
 import { bookingReducer } from './booking/reducer'
-import { watcherSaga } from './sagas/rootSaga'
 
 // Create the store builded with all slices
 // this rootReducer contains all the 'mini' reducers
 const rootReducer = {
   booking: bookingReducer,
   availableBookings: bookingAvailabilityReducer
+}
+
+function* rootSaga() {
+  yield all([availabilitySaga()])
 }
 
 const sagaMiddleware = createSagaMiddleware()
@@ -21,7 +26,7 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production'
 })
 
-sagaMiddleware.run(watcherSaga)
+sagaMiddleware.run(rootSaga)
 
 export type RootState = {
   [K in keyof typeof rootReducer]: ReturnType<typeof rootReducer[K]>

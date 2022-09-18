@@ -1,15 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-export interface BookingAvailabilityContentI {
-  _id: Date | null
-  total: number
-  confirmed: number
-  pending: number
-}
-interface BookingAvailabilityI {
-  byDay: BookingAvailabilityContentI
-  byMonth: BookingAvailabilityContentI[]
-}
+import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit'
+import { BookingAvailabilityContentI, BookingAvailabilityI } from './model'
 
 const initialState: BookingAvailabilityI = {
   byDay: {
@@ -22,19 +12,21 @@ const initialState: BookingAvailabilityI = {
 }
 
 const BookingAvailabilitySlice = createSlice({
-  name: 'bookings',
+  name: 'availability',
   initialState,
   reducers: {
-    getByDay: (state, { payload }: PayloadAction<string | null>) => {},
     setByDay: (state, { payload }: PayloadAction<BookingAvailabilityContentI>) => {
       state.byDay = { ...payload }
     },
-    getByMonth: (state, { payload }: PayloadAction<string>) => {},
     setByMonth: (state, { payload }: PayloadAction<BookingAvailabilityContentI[]>) => {
       state.byMonth = [...payload]
     }
   }
 })
 
-export const bookingAvailabilityActions = BookingAvailabilitySlice.actions
+export const bookingAvailabilityActions = {
+  ...BookingAvailabilitySlice.actions,
+  getByDay: createAction<string>('availability/getByDay'),
+  getByMonth: createAction<string>('availability/getByMonth')
+}
 export const bookingAvailabilityReducer = BookingAvailabilitySlice.reducer

@@ -20,8 +20,8 @@ export const DateController = () => {
   useEffect(() => {
     const currentDate = dayjs().format('YYYY-MM-DD').toString()
     dispatch(bookingAvailabilityActions.getByMonth(currentDate))
-    console.log(monthBookings)
   }, [dispatch])
+  console.log('mb', monthBookings)
 
   const handleChange = useCallback(
     (value: Date | null) => {

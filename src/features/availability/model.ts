@@ -24,3 +24,14 @@ export type BookingDB = {
 }
 
 export type BookingDbList = BookingDB[]
+
+export interface BookingAvailabilityContentI {
+  _id: Date | null
+  total: number
+  confirmed: number
+  pending: number
+}
+export interface BookingAvailabilityI {
+  byDay: BookingAvailabilityContentI
+  byMonth: BookingAvailabilityContentI[]
+}
