@@ -1,29 +1,21 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { getDayAvailability } from 'api'
 import { AxiosResponse } from 'axios'
-import {
-  requestGetBookingAvailByDay,
-  requestGetBookingAvailByMonth
-} from 'features/availability/requests'
+import { requestGetBookingAvailByMonth } from 'features/availability/requests'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { BookingAvailabilityContentI } from './model'
+import { Availability } from './model'
 import { bookingAvailabilityActions as a } from './reducer'
 
 /**
  * Call the request function and store the result in the reducer
  */
-export function* handleGetBookingAvailByDay(action: PayloadAction<string>) {
+export function* getAvailabilityByDaySaga({ payload }: ReturnType<typeof a.getByDay>) {
   try {
     // optional. Needed if we want to pass data to the request function
-    const { payload } = action
     // yield works like async/await. It waits for the result of the function and then continues
 
-    const response: AxiosResponse<BookingAvailabilityContentI> = yield call(
-      requestGetBookingAvailByDay,
-      payload
-    )
+    const { data }: AxiosResponse<Availability> = yield call(getDayAvailability, payload)
 
-    const { data } = response
-    if (!data._id) return
     yield put(a.setByDay(data))
   } catch (error) {
     console.log(error)
@@ -35,7 +27,7 @@ export function* handleGetBookingAvailByMonth(action: PayloadAction<string>) {
     // optional. Needed if we want to pass data to the request function
     const { payload } = action
     // yield works like async/await. It waits for the result of the function and then continues
-    const response: AxiosResponse<BookingAvailabilityContentI[]> = yield call(
+    const response: AxiosResponse<Availability[]> = yield call(
       requestGetBookingAvailByMonth,
       payload
     )
@@ -51,7 +43,6 @@ export function* handleGetBookingAvailByMonth(action: PayloadAction<string>) {
 }
 
 export function* availabilitySaga() {
-  yield takeLatest(a.getByDay.type, handleGetBookingAvailByDay)
-
+  yield takeLatest(a.getByDay.type, getAvailabilityByDaySaga)
   yield takeLatest(a.getByMonth.type, handleGetBookingAvailByMonth)
 }

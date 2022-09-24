@@ -2,26 +2,25 @@ import { TextField } from '@mui/material'
 import { PickersDay, PickersDayProps, StaticDatePicker } from '@mui/x-date-pickers'
 import { PickerSelectionState } from '@mui/x-date-pickers/internals'
 import dayjs from 'dayjs'
+import { MonthlyAvailability } from 'features/availability/model'
 import { bookingAvailabilityActions } from 'features/availability/reducer'
-import { selectAvailByMonth } from 'features/availability/selectors'
+import { selectMappedAvailByMonth } from 'features/availability/selectors'
 import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import './calendar.css'
 
 export const DateController = () => {
   const dispatch = useDispatch()
-  const monthBookings = useSelector(selectAvailByMonth)
+  const monthBookings = useSelector(selectMappedAvailByMonth)
   const selectedDate = useSelector(selectSelectedDate)
   const tomorrow = dayjs().add(0, 'day').toDate()
-
-  const [daysWithDot, setDaysWithDot] = useState([])
 
   useEffect(() => {
     const currentDate = dayjs().format('YYYY-MM-DD').toString()
     dispatch(bookingAvailabilityActions.getByMonth(currentDate))
   }, [dispatch])
-  console.log('mb', monthBookings)
 
   const handleChange = useCallback(
     (value: Date | null) => {
@@ -31,27 +30,34 @@ export const DateController = () => {
     [dispatch]
   )
 
+  console.log('mb', monthBookings)
+
   /**
-   * @TODO: color dates based on availability
+   * @TODO: color dates based on availability. Custom hook?
    */
 
-  // const renderDay = (
-  //   date: Date,
-  //   selectedDate: Date,
-  //   dayInCurrentMonth: Array<Date | null>,
-  //   dayComponent: JSX.Element
-  // ) => {
-  //   if (daysWithDot.includes(date.format('YYYY-MM-DD'))) {
-  //     return (
-  //       <div className="">
-  //         {dayComponent}
-  //         <div className={classes.dayWithDot} />
-  //       </div>
-  //     )
-  //   }
+  const renderDay = (
+    date: Date,
+    selectedDays: Date[],
+    pickersDayProps: PickersDayProps<Date>
+  ) => {
+    // console.log('date', dayjs(date).format('YYYY-MM-DD'))
+    // console.log(monthBookings.almostFull)
+    const almostFullClass = monthBookings.almostFull.includes(
+      dayjs(date).format('YYYY-MM-DD')
+    )
+      ? 'almost-full'
+      : ''
+    const fullClass = monthBookings.full.includes(dayjs(date).format('YYYY-MM-DD'))
+      ? 'full'
+      : ''
 
-  //   return dayComponent
-  // }
+    return (
+      <div className={`${almostFullClass} ${fullClass}`} key={dayjs(date).unix()}>
+        <PickersDay {...pickersDayProps} />
+      </div>
+    )
+  }
 
   return (
     <StaticDatePicker<Date>
@@ -62,6 +68,7 @@ export const DateController = () => {
       onChange={handleChange}
       shouldDisableDate={(date) => date < tomorrow}
       renderInput={(params) => <TextField {...params} />}
+      renderDay={renderDay.bind(this)}
       // renderDay={(
       //   day: Date,
       //   selectedDays: Array<Date | null>,

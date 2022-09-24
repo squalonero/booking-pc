@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit'
-import { BookingAvailabilityContentI, BookingAvailabilityI } from './model'
+import { Availability, BookingAvailabilityI } from './model'
 
 const initialState: BookingAvailabilityI = {
   byDay: {
@@ -15,10 +15,10 @@ const BookingAvailabilitySlice = createSlice({
   name: 'availability',
   initialState,
   reducers: {
-    setByDay: (state, { payload }: PayloadAction<BookingAvailabilityContentI>) => {
+    setByDay: (state, { payload }: PayloadAction<Availability>) => {
       state.byDay = { ...payload }
     },
-    setByMonth: (state, { payload }: PayloadAction<BookingAvailabilityContentI[]>) => {
+    setByMonth: (state, { payload }: PayloadAction<Availability[]>) => {
       state.byMonth = [...payload]
     }
   }
