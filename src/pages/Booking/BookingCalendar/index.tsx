@@ -1,4 +1,5 @@
 import { Button } from '@mui/material'
+import AvailabilityData from 'components/AvailabilityData/AvailabilityData'
 import dayjs from 'dayjs'
 import { bookingAvailabilityActions } from 'features/availability/reducer'
 import { selectAvailByDay } from 'features/availability/selectors'
@@ -6,7 +7,7 @@ import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Config from './Config.json'
+import Config from '../../../Config.json'
 import { DateController } from './DateController'
 import { PeopleController } from './PeopleController'
 import './calendar.css'
@@ -38,26 +39,7 @@ const BookingCalendar = () => {
         {!selectedDate && <DateController />}
         {selectedDate && availByDay && (
           <>
-            <h4 className="flex justify-between">
-              <span className="text-gray-500">Data selezionata:</span>
-              <span>{dayjs(selectedDate).format('DD-MM-YYYY')}</span>
-            </h4>
-            <div className="flex justify-between">
-              <div className="text-gray-500">Posti occupati:</div>
-              <div>
-                {availByDay.confirmed}/{Config.max_people}
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div className="text-gray-500">Persone in coda:</div>
-              <div>
-                {availByDay.pending}/{Config.max_people}
-              </div>
-            </div>
-            <div className="flex justify-between text-xl">
-              <div className="text-gray-500">Posti disponibili:</div>
-              <div>{Config.max_people - availByDay.total}</div>
-            </div>
+            <AvailabilityData selectedDate={selectedDate} availByDay={availByDay} />
             <div className="mt-5 w-full">
               <PeopleController max={Config.max_people} />
             </div>
