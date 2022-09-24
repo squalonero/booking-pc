@@ -1,5 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { DayAvailabilityDto } from 'api/types'
 import { RootState } from 'features/store'
 import { MonthlyAvailability } from './model'
 

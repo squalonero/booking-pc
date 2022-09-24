@@ -1,13 +1,11 @@
 import { TextField } from '@mui/material'
 import { PickersDay, PickersDayProps, StaticDatePicker } from '@mui/x-date-pickers'
-import { PickerSelectionState } from '@mui/x-date-pickers/internals'
 import dayjs from 'dayjs'
-import { MonthlyAvailability } from 'features/availability/model'
 import { bookingAvailabilityActions } from 'features/availability/reducer'
 import { selectMappedAvailByMonth } from 'features/availability/selectors'
 import { bookingActions } from 'features/booking/reducer'
 import { selectSelectedDate } from 'features/booking/selectors'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './calendar.css'
 
@@ -53,8 +51,10 @@ export const DateController = () => {
       : ''
 
     return (
-      <div className={`${almostFullClass} ${fullClass}`} key={dayjs(date).unix()}>
-        <PickersDay {...pickersDayProps} />
+      <div key={dayjs(date).unix()}>
+        <div className={`${almostFullClass} ${fullClass}`}>
+          <PickersDay {...pickersDayProps} />
+        </div>
       </div>
     )
   }
