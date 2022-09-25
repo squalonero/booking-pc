@@ -13,7 +13,8 @@ export const DateController = () => {
   const dispatch = useDispatch()
   const monthBookings = useSelector(selectMappedAvailByMonth)
   const selectedDate = useSelector(selectSelectedDate)
-  const tomorrow = dayjs().add(0, 'day').toDate()
+  // const tomorrow = dayjs().add(1, 'day').toDate()
+  const today = dayjs().toDate()
 
   useEffect(() => {
     const currentDate = dayjs().format('YYYY-MM-DD').toString()
@@ -28,28 +29,22 @@ export const DateController = () => {
     [dispatch]
   )
 
-  console.log('mb', monthBookings)
-
-  /**
-   * @TODO: color dates based on availability. Custom hook?
-   */
+  const isAlmostFull = (date: Date) => {
+    const day = dayjs(date).format('YYYY-MM-DD')
+    return monthBookings.almostFull.includes(day)
+  }
+  const isFull = (date: Date) => {
+    const day = dayjs(date).format('YYYY-MM-DD')
+    return monthBookings.full.includes(day)
+  }
 
   const renderDay = (
     date: Date,
     selectedDays: Date[],
     pickersDayProps: PickersDayProps<Date>
   ) => {
-    // console.log('date', dayjs(date).format('YYYY-MM-DD'))
-    // console.log(monthBookings.almostFull)
-    const almostFullClass = monthBookings.almostFull.includes(
-      dayjs(date).format('YYYY-MM-DD')
-    )
-      ? 'almost-full'
-      : ''
-    const fullClass = monthBookings.full.includes(dayjs(date).format('YYYY-MM-DD'))
-      ? 'full'
-      : ''
-
+    const almostFullClass = date > today && isAlmostFull(date) ? 'almost-full' : ''
+    const fullClass = date > today && isFull(date) ? 'full' : ''
     return (
       <div key={dayjs(date).unix()}>
         <div className={`${almostFullClass} ${fullClass}`}>
@@ -66,26 +61,9 @@ export const DateController = () => {
       views={['day']} // only show day view
       value={selectedDate ? dayjs(selectedDate).toDate() : null}
       onChange={handleChange}
-      shouldDisableDate={(date) => date < tomorrow}
+      shouldDisableDate={(date) => date < today}
       renderInput={(params) => <TextField {...params} />}
       renderDay={renderDay.bind(this)}
-      // renderDay={(
-      //   day: Date,
-      //   selectedDays: Array<Date | null>,
-      //   pickersDayProps: PickersDayProps<Date>
-      // ) => (
-      //   <>
-      //     <span key={day.toString()}>
-      //       <PickersDay
-      //         day={day}
-      //         onDaySelect={function (day: Date, isFinish: PickerSelectionState): void {
-      //           throw new Error('Function not implemented.')
-      //         }}
-      //         outsideCurrentMonth={false}
-      //       />
-      //     </span>
-      //   </>
-      // )}
     />
   )
 }
