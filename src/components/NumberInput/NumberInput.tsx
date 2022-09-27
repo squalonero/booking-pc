@@ -20,6 +20,7 @@ const NumberInput = ({ id, label, value, onIncrement, onDecrement }: Props) => {
         <button
           className={`btn-circle relative ${label && 'ml-auto'}`}
           onClick={onDecrement}
+          type="button"
         >
           <span className="absolute absolute-center">-</span>
         </button>
@@ -39,7 +40,7 @@ const NumberInput = ({ id, label, value, onIncrement, onDecrement }: Props) => {
             }
           }}
         />
-        <button className="btn-circle relative" onClick={onIncrement}>
+        <button type="button" className="btn-circle relative" onClick={onIncrement}>
           <span className="absolute absolute-center">+</span>
         </button>
       </div>

@@ -1,7 +1,14 @@
 .almost-full button{
-    background-color: #ffe082;
+    @apply bg-orange-200;
 }
 
 .full button{
-    background-color: #bcbcbc;
+    @apply bg-gray-100;
+}
+.free button {
+    @apply bg-blue-500 text-white;
+}
+
+.selectedDate{
+    background-color: unset !important;
 }

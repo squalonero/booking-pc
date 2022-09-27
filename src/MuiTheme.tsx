@@ -1,5 +1,11 @@
 import { createTheme } from '@mui/system'
 
 export const MuiTheme = createTheme({
-  components: {}
+  components: {
+    PickersDay: {
+      daySelected: {
+        backgroundColor: 'red'
+      }
+    }
+  }
 })
