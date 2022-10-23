@@ -21,6 +21,10 @@ export enum statusEnum {
   CANCELLED = 'CANCELLED'
 }
 
+export interface BookingErrors {
+  passengers: customerDto[]
+}
+
 export interface BookingDto {
   user: userI | {}
   date: string

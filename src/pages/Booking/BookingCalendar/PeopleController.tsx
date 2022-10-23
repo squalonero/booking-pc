@@ -1,7 +1,13 @@
 import { FormControl, Input } from '@mui/material'
 import NumberInput from 'components/NumberInput/NumberInput'
-import { BookingDto, customerDto } from 'features/booking/model'
-import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik'
+import { BookingDto, BookingErrors, customerDto } from 'features/booking/model'
+import {
+  FieldArray,
+  FieldArrayRenderProps,
+  FormikContextType,
+  FormikErrors,
+  useFormikContext
+} from 'formik'
 import { FormEvent } from 'react'
 
 type Props = {
@@ -20,10 +26,12 @@ export const PeopleController = ({
   onDecrement
 }: Props) => {
   const formik = useFormikContext<BookingDto>()
+  const { errors }: { errors: FormikErrors<BookingErrors> } = formik
+  console.log('🚀 ~ file: PeopleController.tsx ~ line 30 ~ errors', errors)
 
   console.log('formik in people controller', formik)
 
-  const selectedPeople = formik.values.passengers
+  const selectedPeople = [...formik.values.passengers]
 
   const incrementPeople = (arrHelp: FieldArrayRenderProps) => {
     if (selectedPeople.length == max) return
@@ -70,9 +78,13 @@ export const PeopleController = ({
                     placeholder="Nome"
                     onInput={handleValue}
                   />
-                  {formik.errors.passengers?.[i]?.name && (
-                    <small>{formik.errors.passengers?.[i]?.name}</small>
-                  )}
+                  {errors.passengers &&
+                    errors.passengers[i] &&
+                    // @ts-ignore
+                    errors.passengers[i].name && (
+                      // @ts-ignore
+                      <p className="text-red-500">{errors.passengers[i].name}</p>
+                    )}
                 </FormControl>
                 <FormControl>
                   <Input
@@ -82,6 +94,13 @@ export const PeopleController = ({
                     placeholder="Cognome"
                     onInput={handleValue}
                   />
+                  {errors.passengers &&
+                    errors.passengers[i] &&
+                    // @ts-ignore
+                    errors.passengers[i].lastName && (
+                      // @ts-ignore
+                      <p className="text-red-500">{errors.passengers[i].lastName}</p>
+                    )}
                 </FormControl>
                 <FormControl>
                   <Input
@@ -91,6 +110,13 @@ export const PeopleController = ({
                     placeholder="Eta"
                     onInput={handleValue}
                   />
+                  {errors.passengers &&
+                    errors.passengers[i] &&
+                    // @ts-ignore
+                    errors.passengers[i].age && (
+                      // @ts-ignore
+                      <p className="text-red-500">{errors.passengers[i].age}</p>
+                    )}
                 </FormControl>
               </div>
             ))}

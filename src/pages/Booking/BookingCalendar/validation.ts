@@ -1,4 +1,4 @@
-import { BookingDto } from 'features/booking/model'
+import { BookingDto, customerDto } from 'features/booking/model'
 import * as Yup from 'yup'
 import { Assign, ObjectShape } from 'yup/lib/object'
 
