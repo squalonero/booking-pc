@@ -1,3 +1,4 @@
+import { Box, Container } from '@mui/system'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import it from 'dayjs/locale/it'
@@ -24,8 +25,10 @@ export const App = () => {
 
   return (
     <LocalizationProvider adapterLocale={it} dateAdapter={AdapterDayjs}>
-      <div className="w-[calc(100%_-_6rem)] min-h-screen mx-[3rem]">
-        <div className="flex flex-col py-10 items-center h-full w-full mx-auto">
+      {/* <div className="w-[calc(100%_-_6rem)] min-h-screen mx-[3rem]"> */}
+      {/* <div className="flex flex-col py-10 items-center h-full w-full mx-auto"> */}
+      <Container maxWidth="xs">
+        <Box sx={{ py: 3 }}>
           <Formik
             initialValues={formInitialValues}
             validationSchema={BookingSchema}
@@ -39,8 +42,10 @@ export const App = () => {
               </Routes>
             )}
           </Formik>
-        </div>
-      </div>
+        </Box>
+      </Container>
+      {/* </div> */}
+      {/* </div> */}
     </LocalizationProvider>
   )
 }

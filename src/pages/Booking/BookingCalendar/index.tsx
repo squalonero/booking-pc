@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Container } from '@mui/material'
 import AvailabilityData from 'components/AvailabilityData/AvailabilityData'
 import dayjs from 'dayjs'
 import { bookingAvailabilityActions } from 'features/availability/reducer'
@@ -7,6 +7,7 @@ import { BookingDto } from 'features/booking/model'
 import { Form, useFormikContext } from 'formik'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { call } from 'redux-saga/effects'
 import Config from '../../../Config.json'
 import { DateController } from './DateController'
 import { PeopleController } from './PeopleController'
@@ -68,21 +69,27 @@ const BookingCalendar = () => {
                   }}
                 />
               </div>
-              <div className=" shadow-top flex fixed bottom-0 justify-between mt-5 bg-white left-0 right-0 py-5 px-10">
-                <div>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => formik.setFieldValue('date', '')}
-                  >
-                    Cambia data
-                  </Button>
-                </div>
-                <div>
-                  <Button type="submit" variant="contained" color="primary">
-                    Prenota
-                  </Button>
-                </div>
+              <div className="shadow-top fixed bottom-0 left-0 right-0 z-30">
+                <Container
+                  maxWidth="xs"
+                  sx={{ display: 'flex' }}
+                  className="justify-between bg-white py-5 px-10"
+                >
+                  <div>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => formik.setFieldValue('date', '')}
+                    >
+                      Cambia data
+                    </Button>
+                  </div>
+                  <div>
+                    <Button type="submit" variant="contained" color="primary">
+                      Prenota
+                    </Button>
+                  </div>
+                </Container>
               </div>
               {/* </form> */}
             </>

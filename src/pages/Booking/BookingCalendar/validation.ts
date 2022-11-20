@@ -8,7 +8,7 @@ export const BookingSchema = Yup.object().shape({
     Yup.object().shape({
       name: Yup.string().required('Passenger name is required'),
       lastName: Yup.string().required('Passenger last name is required'),
-      age: Yup.number().required('Passenger age is required')
+      age: Yup.string().required('Passenger age is required').nullable()
     })
   )
 })

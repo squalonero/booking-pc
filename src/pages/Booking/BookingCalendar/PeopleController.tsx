@@ -2,6 +2,7 @@ import { FormControl, Input } from '@mui/material'
 import NumberInput from 'components/NumberInput/NumberInput'
 import { BookingDto, BookingErrors, customerDto } from 'features/booking/model'
 import {
+  ErrorMessage,
   FieldArray,
   FieldArrayRenderProps,
   FormikContextType,
@@ -27,9 +28,6 @@ export const PeopleController = ({
 }: Props) => {
   const formik = useFormikContext<BookingDto>()
   const { errors }: { errors: FormikErrors<BookingErrors> } = formik
-  console.log('🚀 ~ file: PeopleController.tsx ~ line 30 ~ errors', errors)
-
-  console.log('formik in people controller', formik)
 
   const selectedPeople = [...formik.values.passengers]
 
@@ -70,7 +68,7 @@ export const PeopleController = ({
             {selectedPeople.map((passenger, i) => (
               <div className="mt-3" key={i}>
                 <h3>Passeggero {i + 1}</h3>
-                <FormControl>
+                <FormControl sx={{ width: '100%' }}>
                   <Input
                     id={`passengers.${i}.name`}
                     name={`passengers.${i}.name`}
@@ -78,15 +76,13 @@ export const PeopleController = ({
                     placeholder="Nome"
                     onInput={handleValue}
                   />
-                  {errors.passengers &&
-                    errors.passengers[i] &&
-                    // @ts-ignore
-                    errors.passengers[i].name && (
-                      // @ts-ignore
-                      <p className="text-red-500">{errors.passengers[i].name}</p>
-                    )}
+                  <ErrorMessage
+                    component="span"
+                    name={`passengers[${i}].name`}
+                    className="text-red-500"
+                  />
                 </FormControl>
-                <FormControl>
+                <FormControl sx={{ width: '100%' }}>
                   <Input
                     id={`passengers.${i}.lastName`}
                     name={`passengers.${i}.lastName`}
@@ -94,15 +90,13 @@ export const PeopleController = ({
                     placeholder="Cognome"
                     onInput={handleValue}
                   />
-                  {errors.passengers &&
-                    errors.passengers[i] &&
-                    // @ts-ignore
-                    errors.passengers[i].lastName && (
-                      // @ts-ignore
-                      <p className="text-red-500">{errors.passengers[i].lastName}</p>
-                    )}
+                  <ErrorMessage
+                    component="span"
+                    name={`passengers[${i}].lastName`}
+                    className="text-red-500"
+                  />
                 </FormControl>
-                <FormControl>
+                <FormControl sx={{ width: '100%' }}>
                   <Input
                     id={`passengers.${i}.age`}
                     name={`passengers.${i}.age`}
@@ -110,13 +104,11 @@ export const PeopleController = ({
                     placeholder="Eta"
                     onInput={handleValue}
                   />
-                  {errors.passengers &&
-                    errors.passengers[i] &&
-                    // @ts-ignore
-                    errors.passengers[i].age && (
-                      // @ts-ignore
-                      <p className="text-red-500">{errors.passengers[i].age}</p>
-                    )}
+                  <ErrorMessage
+                    component="span"
+                    name={`passengers[${i}].age`}
+                    className="text-red-500"
+                  />
                 </FormControl>
               </div>
             ))}

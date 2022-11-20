@@ -24,7 +24,8 @@ export const DateController = ({ handleChange, value }: Props) => {
   const today = dayjs().toDate()
 
   useEffect(() => {
-    if (!currentDate) setCurrentDate(dayjs().format('YYYY-MM-DD').toString())
+    if (!currentDate) return setCurrentDate(dayjs().format('YYYY-MM-DD').toString())
+    console.log('currentDate', currentDate)
     dispatch(bookingAvailabilityActions.getByMonth(currentDate!))
   }, [dispatch, currentDate])
 
@@ -64,7 +65,7 @@ export const DateController = ({ handleChange, value }: Props) => {
         value={value ? dayjs(value).toDate() : null}
         onChange={handleChange}
         shouldDisableDate={(date) => date < today || isFull(date)}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => <TextField {...params} fullWidth />}
         renderDay={renderDay.bind(this)}
         onMonthChange={(date) =>
           setCurrentDate(dayjs(date).format('YYYY-MM-DD').toString())
