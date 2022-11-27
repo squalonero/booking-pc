@@ -33,6 +33,24 @@ const BookigSlice = createSlice({
         state.selectedPeople--
         state.passengers.pop()
       }
+    },
+    setPassengerName: (
+      state,
+      { payload }: PayloadAction<{ index: number; name: string }>
+    ) => {
+      state.passengers[payload.index].name = payload.name
+    },
+    setPassengerLastName: (
+      state,
+      { payload }: PayloadAction<{ index: number; lastName: string }>
+    ) => {
+      state.passengers[payload.index].lastName = payload.lastName
+    },
+    setPassengerAge: (
+      state,
+      { payload }: PayloadAction<{ index: number; age: number | null }>
+    ) => {
+      state.passengers[payload.index].age = payload.age
     }
   }
 })

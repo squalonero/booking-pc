@@ -7,13 +7,13 @@ import { BookingDto } from 'features/booking/model'
 import { Form, useFormikContext } from 'formik'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { call } from 'redux-saga/effects'
 import Config from '../../../Config.json'
 import { DateController } from './DateController'
 import { PeopleController } from './PeopleController'
 import './calendar.css'
+import BottomBar from 'components/BottomBar/BottomBar'
 
-const BookingCalendar = () => {
+export const BookingCalendar = () => {
   const dispatch = useDispatch()
   const availByDay = useSelector(selectAvailByDay)
   const formik = useFormikContext<BookingDto>()
@@ -28,7 +28,7 @@ const BookingCalendar = () => {
   return (
     <>
       <div className="text-center mb-10">
-        <h1 className="title">App Name</h1>
+        <h1 className="title">Pescaturismo Celeste</h1>
         <h2 className="subtitle">Prenotazioni</h2>
       </div>
 
@@ -69,28 +69,7 @@ const BookingCalendar = () => {
                   }}
                 />
               </div>
-              <div className="shadow-top fixed bottom-0 left-0 right-0 z-30">
-                <Container
-                  maxWidth="xs"
-                  sx={{ display: 'flex' }}
-                  className="justify-between bg-white py-5 px-10"
-                >
-                  <div>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => formik.setFieldValue('date', '')}
-                    >
-                      Cambia data
-                    </Button>
-                  </div>
-                  <div>
-                    <Button type="submit" variant="contained" color="primary">
-                      Prenota
-                    </Button>
-                  </div>
-                </Container>
-              </div>
+              <BottomBar submitLabel="Continua"></BottomBar>
               {/* </form> */}
             </>
           )}
@@ -99,5 +78,3 @@ const BookingCalendar = () => {
     </>
   )
 }
-
-export default BookingCalendar

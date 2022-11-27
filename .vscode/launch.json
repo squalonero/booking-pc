@@ -5,13 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/src/index.tsx",
+            "name": "Run React",
             "request": "launch",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node"
+            "type": "node-terminal",
+            "command": "npm start"
         },
         {
             "type": "chrome",

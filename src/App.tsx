@@ -4,13 +4,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import it from 'dayjs/locale/it'
 import { BookingDto } from 'features/booking/model'
 import { Formik } from 'formik'
-import { MuiTheme } from 'MuiTheme'
 
-import BookingCalendar from 'pages/Booking/BookingCalendar'
+import { BookingCalendar } from 'pages/Booking/BookingCalendar'
 import { BookingSchema } from 'pages/Booking/BookingCalendar/validation'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import { UserRegistration } from 'pages/Booking/UserRegistration'
 
 export const App = () => {
+  const navigate = useNavigate()
   const formInitialValues: BookingDto = {
     user: {},
     date: '',
@@ -33,13 +34,19 @@ export const App = () => {
             initialValues={formInitialValues}
             validationSchema={BookingSchema}
             onSubmit={(values) => {
+              console.debug('FORM SUBMIT')
               console.debug('formik values', values)
+              navigate('/user/registration')
             }}
           >
-            {({ errors, ...formik }) => (
-              <Routes>
-                <Route path="/" element={<BookingCalendar />} />
-              </Routes>
+            {(formik) => (
+              console.log('FORMIK', formik),
+              (
+                <Routes>
+                  <Route path="/" element={<BookingCalendar />} />
+                  <Route path="/user/registration" element={<UserRegistration />} />
+                </Routes>
+              )
             )}
           </Formik>
         </Box>
