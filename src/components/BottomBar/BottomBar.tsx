@@ -6,10 +6,13 @@ import React from 'react'
 type Props = {
   resetLabel?: string
   submitLabel?: string
+  isSubmit: boolean
+  onClick?: () => void
 }
 
-const BottomBar = ({ resetLabel, submitLabel }: Props) => {
+const BottomBar = ({ resetLabel, submitLabel, isSubmit, onClick }: Props) => {
   const formik = useFormikContext<BookingDto>()
+
   return (
     <div className="shadow-top fixed bottom-0 left-0 right-0 z-30">
       <Container
@@ -27,7 +30,14 @@ const BottomBar = ({ resetLabel, submitLabel }: Props) => {
           </Button>
         </div>
         <div>
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            onClick={() =>
+              !isSubmit && onClick !== undefined ? onClick() : formik.handleSubmit()
+            }
+            type={isSubmit ? 'submit' : 'button'}
+            variant="contained"
+            color="primary"
+          >
             {submitLabel || 'Prenota'}
           </Button>
         </div>

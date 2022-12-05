@@ -21,3 +21,5 @@ export const selectSelectedPeople = createSelector(
   selectBooking,
   ({ selectedPeople }) => selectedPeople
 )
+
+export const selectBookingId = createSelector(selectBooking, ({ bookingId }) => bookingId)

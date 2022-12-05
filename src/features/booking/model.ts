@@ -1,6 +1,14 @@
+import { NavigateFunction } from "react-router-dom"
+
 export interface userI {
   email: string
   phone: number
+}
+export interface unserInterfaceDB {
+  _id: string
+  email: string
+  phone: number
+  __v: number
 }
 
 export interface customerI {
@@ -18,7 +26,8 @@ export interface customerDto {
 export enum statusEnum {
   CONFIRMED = 'CONFIRMED',
   PENDING = 'PENDING',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
+  PENDING_EMAIL_CONFIRMATION = 'PENDING_EMAIL_CONFIRMATION'
 }
 
 export interface BookingErrors {
@@ -32,11 +41,17 @@ export interface BookingDto {
 }
 
 export type BookingDB = {
-  id: number
-  user: userI
+  _id: string
+  __v: number
+  user: unserInterfaceDB
   status: statusEnum
   date: string
   passengers: customerI[]
 }
 
 export type BookingDbList = BookingDB[]
+
+export type submitBooking = {
+  form: BookingDto
+  navigate: NavigateFunction
+}

@@ -1,5 +1,6 @@
-import { Button, Container } from '@mui/material'
+// import { Button, Container } from '@mui/material'
 import AvailabilityData from 'components/AvailabilityData/AvailabilityData'
+import BottomBar from 'components/BottomBar/BottomBar'
 import dayjs from 'dayjs'
 import { bookingAvailabilityActions } from 'features/availability/reducer'
 import { selectAvailByDay } from 'features/availability/selectors'
@@ -7,16 +8,17 @@ import { BookingDto } from 'features/booking/model'
 import { Form, useFormikContext } from 'formik'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Config from '../../../Config.json'
 import { DateController } from './DateController'
 import { PeopleController } from './PeopleController'
 import './calendar.css'
-import BottomBar from 'components/BottomBar/BottomBar'
 
 export const BookingCalendar = () => {
   const dispatch = useDispatch()
   const availByDay = useSelector(selectAvailByDay)
   const formik = useFormikContext<BookingDto>()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!formik.values.date) return
@@ -24,6 +26,10 @@ export const BookingCalendar = () => {
       bookingAvailabilityActions.getByDay(dayjs(formik.values.date).format('YYYY-MM-DD'))
     )
   }, [dispatch, formik.values.date])
+
+  function onNext() {
+    navigate('/user/registration')
+  }
 
   return (
     <>
@@ -69,7 +75,7 @@ export const BookingCalendar = () => {
                   }}
                 />
               </div>
-              <BottomBar submitLabel="Continua"></BottomBar>
+              <BottomBar onClick={onNext} isSubmit={false} submitLabel="Continua" />
               {/* </form> */}
             </>
           )}

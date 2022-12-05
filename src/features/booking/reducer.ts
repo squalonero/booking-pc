@@ -1,16 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { customerDto } from './model'
+import { BookingDto, customerDto, submitBooking } from './model'
 
 export type BookingState = {
   selectedDate: string | null
   selectedPeople: number
   passengers: customerDto[]
+  booking: BookingDto
+  bookingId: string | null
 }
 
 const initialState: BookingState = {
   selectedDate: null,
   selectedPeople: 1,
-  passengers: []
+  passengers: [],
+  booking: {
+    user: {},
+    date: '',
+    passengers: []
+  },
+  bookingId: null
 }
 
 const BookigSlice = createSlice({
@@ -51,6 +59,14 @@ const BookigSlice = createSlice({
       { payload }: PayloadAction<{ index: number; age: number | null }>
     ) => {
       state.passengers[payload.index].age = payload.age
+    },
+    storeBooking: (state, { payload }: PayloadAction<submitBooking>) => {
+      const { form } = payload
+      state.booking = form
+    },
+    storeBookingSuccess: (state, { payload }: PayloadAction<string>) => {
+      console.log(payload)
+      state.bookingId = payload
     }
   }
 })

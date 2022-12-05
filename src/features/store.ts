@@ -4,6 +4,7 @@ import { all } from 'redux-saga/effects'
 import { bookingAvailabilityReducer } from './availability/reducer'
 import { availabilitySaga } from './availability/sagas'
 import { bookingReducer } from './booking/reducer'
+import { bookingSaga } from './booking/sagas'
 
 // Create the store builded with all slices
 // this rootReducer contains all the 'mini' reducers
@@ -13,7 +14,7 @@ const rootReducer = {
 }
 
 function* rootSaga() {
-  yield all([availabilitySaga()])
+  yield all([availabilitySaga(), bookingSaga()])
 }
 
 const sagaMiddleware = createSagaMiddleware()

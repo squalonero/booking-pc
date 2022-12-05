@@ -2,16 +2,20 @@ import { Box, Container } from '@mui/system'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import it from 'dayjs/locale/it'
-import { BookingDto } from 'features/booking/model'
+import { BookingDto, submitBooking } from 'features/booking/model'
+import { bookingActions } from 'features/booking/reducer'
+import { selectBookingId } from 'features/booking/selectors'
 import { Formik } from 'formik'
-
 import { BookingCalendar } from 'pages/Booking/BookingCalendar'
 import { BookingSchema } from 'pages/Booking/BookingCalendar/validation'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import ThankyouPage from 'pages/Booking/ThankyouPage'
 import { UserRegistration } from 'pages/Booking/UserRegistration'
+import { useDispatch } from 'react-redux'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 
 export const App = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const formInitialValues: BookingDto = {
     user: {},
     date: '',
@@ -24,6 +28,17 @@ export const App = () => {
     ]
   }
 
+  // useEffect(() => {
+  //   if (!selectBookingId) return
+  //   navigate('/booking/success')
+  // }, [navigate, selectBookingId])
+
+  const submitStoreBooking = (data: submitBooking) => {
+    dispatch(bookingActions.storeBooking(data))
+    if (!selectBookingId) navigate('/booking/retry')
+    else navigate('/booking/success')
+  }
+
   return (
     <LocalizationProvider adapterLocale={it} dateAdapter={AdapterDayjs}>
       {/* <div className="w-[calc(100%_-_6rem)] min-h-screen mx-[3rem]"> */}
@@ -33,20 +48,16 @@ export const App = () => {
           <Formik
             initialValues={formInitialValues}
             validationSchema={BookingSchema}
-            onSubmit={(values) => {
-              console.debug('FORM SUBMIT')
-              console.debug('formik values', values)
-              navigate('/user/registration')
-            }}
+            onSubmit={(values) => submitStoreBooking({ form: values, navigate })}
           >
             {(formik) => (
-              console.log('FORMIK', formik),
-              (
-                <Routes>
-                  <Route path="/" element={<BookingCalendar />} />
-                  <Route path="/user/registration" element={<UserRegistration />} />
-                </Routes>
-              )
+              // console.log('FORMIK', formik),
+              <Routes>
+                <Route path="/" element={<BookingCalendar />} />
+                <Route path="/user/registration" element={<UserRegistration />} />
+                <Route path="/booking/success" element={<ThankyouPage />} />
+                <Route path="/booking/error" element={<>Error</>} />
+              </Routes>
             )}
           </Formik>
         </Box>

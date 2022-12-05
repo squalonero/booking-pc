@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { bookingAvailabilityActions } from 'features/availability/reducer'
 import { selectMappedAvailByMonth } from 'features/availability/selectors'
 import { BookingDto } from 'features/booking/model'
-import { useFormikContext } from 'formik'
+import { ErrorMessage, useFormikContext } from 'formik'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './calendar.css'
@@ -71,7 +71,8 @@ export const DateController = ({ handleChange, value }: Props) => {
           setCurrentDate(dayjs(date).format('YYYY-MM-DD').toString())
         }
       />
-      {formik.errors.date}
+      <ErrorMessage component="span" name={`date`} className="text-red-500" />
+      {/* {formik.errors.date} */}
     </>
   )
 }
